@@ -1,6 +1,6 @@
 # Statistical Machine Learning Basics
 
-This repository contains implementation of classifiers including Fisher dicriminant, logistic regression, perpectrons. This repository also contains linear fitting models including (1) linear regression based on least squares method and subset selection method and (2) ridge regression. The dataset for training and testing can be found in [1]
+This repository contains implementation of classifiers including Fisher dicriminant, logistic regression, perpectrons. This repository also contains linear methods for regression including least squares estimates, subset selection method and ridge regression. The dataset for training and testing can be found in [1]
 
 
 ##### Reference
