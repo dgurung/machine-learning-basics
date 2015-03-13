@@ -1,5 +1,4 @@
 import numpy as np
-from sklearn.decomposition import PCA
 
 def read_training_data(label0,label1):
 	with open('../datasets/zip.train') as f:		
