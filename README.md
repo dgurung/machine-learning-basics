@@ -5,7 +5,7 @@ This repository contains implementation of classifiers and linear regression met
 ##### Classifiers:
 1. Fisher Discriminant
 2. Perceptrons
-3. Neural Network (single hidden layer)
+3. Neural Network (single hidden layer). For symbols and maths see [2]
 
 ##### Regressions:
 1. Linear regression based on oridnary least squares (OLS)
@@ -18,3 +18,4 @@ Libraries imported: numpy for data structure, sklearn for computing error merics
 
 ##### Reference
 1. [The Elements of Statistical Learning: Data Mining, Inference, and Prediction. T Hastie, R Tibshirani, Jerome Friedman](http://statweb.stanford.edu/~tibs/ElemStatLearn/)
+2. [Neural Networks, A Systematic Introduction. R. Rojas](http://page.mi.fu-berlin.de/rojas/neural/neuron.pdf)
