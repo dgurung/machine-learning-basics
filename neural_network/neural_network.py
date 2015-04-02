@@ -6,14 +6,11 @@ from sklearn.metrics import (confusion_matrix,accuracy_score )
 import read_zip_data as read
 
 class NeuralNetwork_1H(object):
-    def __init__(self, learning_rate=0.1, n_hidden_units=20,maxiter=200):
+    def __init__(self, learning_rate=0.1, n_hidden_units=40,maxiter=200):
+        # intialize neightwork parameters
         self.gamma = learning_rate
         self.n_hidden_units = n_hidden_units
         self.maxiter = maxiter
-
-	print 'Hidden units: ', self.n_hidden_units
-	print 'learning rate: ', self.gamma
-	print 'maxiter: ', self.maxiter
     
     def rand_init_weights(self):
         # Initialize weights randomly
@@ -37,34 +34,49 @@ class NeuralNetwork_1H(object):
                 
     def back_propagation(self, o1, o2, y):
         
-        err = o2 - y                  # Error
+        # Error in the output layer
+        err = o2 - y                  
         
-        op_prime_2 = o2 * (1 - o2)    # dE/dw for hidden layer
+        # The derivative (dE/dw) in feed-forward step at the output layer
+        op_prime_2 = o2 * (1 - o2)    
         D2 = np.diag(op_prime_2)
         
-        op_prime_1 = o1 * (1 - o1)    #dE/dw for input layer
+        # The derivative (dE/dw) in feed-forward step at the hidden layer
+        op_prime_1 = o1 * (1 - o1)    
         D1 = np.diag(op_prime_1)
         
+        # The back propagated error up to the output unit
         delta_2 = np.dot(D2 , err)
+        # The back propagated error up to the hidden layer
         delta_1 = np.dot(D1, np.dot(self.weights_2[:-1,:], delta_2 ) )
         
         return delta_2, delta_1
     
-    def weight_update(self, o1_biased, delta_2, delta_1, x ):           
+    def weight_update(self, o1_biased, delta_2, delta_1, x ):
+        # The correction for weight matrix joining hidden and output layers
         delta_weightsT_2 = - self.gamma * np.dot(delta_2[np.newaxis].T, o1_biased[np.newaxis])
+        # The correction for weight matrix joining input and hidden layers
         delta_weightsT_1 = - self.gamma * np.dot(delta_1[np.newaxis].T, x[np.newaxis])
         
+        # Corrected weight
         self.weights_2 = self.weights_2 + delta_weightsT_2.T
         self.weights_1 = self.weights_1 + delta_weightsT_1.T    
         
-    def train(self,X,y):                                
+    def train(self,X,y):                              
+        # Train the network by randomly shuffling all the input data.
+        # Do above step for multiple iteration (upto maxiter)
         for i in range(self.maxiter):
+            # Randomly shufffle the input data in each iteration
             index=list(range(self.num_samples))
             np.random.shuffle(index)        
             
+            # Train the network (weights) for all data
             for row in index:
+                # Compute the output error 
                 o1, o1_biased, o2 = self.feed_forward(X[row])
+                # Compute the back propagated error
                 delta_2, delta_1 = self.back_propagation(o1,o2,y[row])
+                # Correct the weight matrix
                 self.weight_update(o1_biased, delta_2, delta_1, X[row])
 
         
@@ -74,14 +86,14 @@ class NeuralNetwork_1H(object):
         self.num_samples = X.shape[0]          
                 
         # initialize weights
-        self.rand_init_weights()
-        
-        # build the architecture
+        self.rand_init_weights()        
+        # train the nerual network
         self.train(X,y)    
     
     def predict(self,X):
         n_samples = X.shape[0]
         pred = np.zeros((n_samples,self.n_output_units))
+        # Predict the output using the trained network
         for i in range(n_samples):
             _,_,pred[i,:] = self.feed_forward(X[i])        
         return pred
@@ -94,7 +106,7 @@ def preprocess_data():
     origtrainX, trainY = read.read_training_data()
     testX, testY = read.read_testing_data()
 
-    # Pre processing input X data
+    # Reduce dimensionality of input X data
     pca = PCA(n_components=20)
     pca.fit_transform(origtrainX)
     trainX = pca.transform(origtrainX)
