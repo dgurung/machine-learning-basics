@@ -6,19 +6,35 @@ from sklearn.metrics import (confusion_matrix,accuracy_score )
 import read_zip_data as read
 
 class NeuralNetwork_1H(object):
+	"""Abstraction of a single hidden layer Neural Network.
+
+	This stores internally the weight matrix of the neural network.
+	weights_1 is the weight matrix connecting the input layer and hidden layer.
+	weights_2 is the weight matrix connecting the hidden layer and the output layer.
+	"""
+
     def __init__(self, learning_rate=0.1, n_hidden_units=40,maxiter=200):
+    	""" Initialize the nnumber of hidden units in Neural Network and its parameters 
+    		including learning rate and number of iteration for training
+
+    	"""
+
         # intialize neightwork parameters
-        self.gamma = learning_rate
+        self.learning_rate = learning_rate
         self.n_hidden_units = n_hidden_units
         self.maxiter = maxiter
     
     def rand_init_weights(self):
-        # Initialize weights randomly
-        # this weights also includes weight associated with bias
+        """ Initialize weights randomly including the weight associated with bias
+
+		"""
         self.weights_1 = np.random.normal(0,0.001,(self.n_input_units, self.n_hidden_units))
         self.weights_2 = np.random.normal(0,0.001,(self.n_hidden_units + 1, self.n_output_units))   
         
     def feed_forward(self,X):  
+    	""" Returns the ouput of each units in the hidden layer and output layer.
+
+    	"""
         
         # hidden layer
         z1 = np.dot(X,self.weights_1)
@@ -33,19 +49,21 @@ class NeuralNetwork_1H(object):
         return o1, o1_biased, o2
                 
     def back_propagation(self, o1, o2, y):
-        
+        """ Returns the error in wieghts at the hidden and input layer that is back propagated from the output layer.
+
+        """
         # Error in the output layer
         err = o2 - y                  
         
-        # The derivative (dE/dw) in feed-forward step at the output layer
+        # The derivative of sigmoid in feed-forward step at the output layer
         op_prime_2 = o2 * (1 - o2)    
         D2 = np.diag(op_prime_2)
         
-        # The derivative (dE/dw) in feed-forward step at the hidden layer
+        # The derivative of sigmoid in feed-forward step at the hidden layer
         op_prime_1 = o1 * (1 - o1)    
         D1 = np.diag(op_prime_1)
         
-        # The back propagated error up to the output unit
+        # The back propagated error up to the output layer
         delta_2 = np.dot(D2 , err)
         # The back propagated error up to the hidden layer
         delta_1 = np.dot(D1, np.dot(self.weights_2[:-1,:], delta_2 ) )
@@ -53,14 +71,17 @@ class NeuralNetwork_1H(object):
         return delta_2, delta_1
     
     def weight_update(self, o1_biased, delta_2, delta_1, x ):
+    	""" Returns the new learned weights by updating the back propagation error in previous weights. 
+
+    	"""
         # The correction for weight matrix joining hidden and output layers
-        delta_weightsT_2 = - self.gamma * np.dot(delta_2[np.newaxis].T, o1_biased[np.newaxis])
+        gradient_errorT_2 = - self.learning_rate * np.dot(delta_2[np.newaxis].T, o1_biased[np.newaxis])
         # The correction for weight matrix joining input and hidden layers
-        delta_weightsT_1 = - self.gamma * np.dot(delta_1[np.newaxis].T, x[np.newaxis])
+        gradient_errorT_1 = - self.learning_rate * np.dot(delta_1[np.newaxis].T, x[np.newaxis])
         
         # Corrected weight
-        self.weights_2 = self.weights_2 + delta_weightsT_2.T
-        self.weights_1 = self.weights_1 + delta_weightsT_1.T    
+        self.weights_2 = self.weights_2 + gradient_errorT_2.T
+        self.weights_1 = self.weights_1 + gradient_errorT_1.T    
         
     def train(self,X,y):                              
         # Train the network by randomly shuffling all the input data.
@@ -81,6 +102,9 @@ class NeuralNetwork_1H(object):
 
         
     def fit(self, X, y):
+    	""" Returns a trained neurak network using training data X where each element of X has label y.
+
+    	"""
         self.n_input_units = X.shape[1]
         self.n_output_units = 10
         self.num_samples = X.shape[0]          
@@ -91,6 +115,9 @@ class NeuralNetwork_1H(object):
         self.train(X,y)    
     
     def predict(self,X):
+    	""" Returns the output prediction for given input using the trained model. 
+
+    	"""
         n_samples = X.shape[0]
         pred = np.zeros((n_samples,self.n_output_units))
         # Predict the output using the trained network
@@ -103,6 +130,10 @@ class NeuralNetwork_1H(object):
 
 
 def preprocess_data():
+	""" Returns the principal components of the training and testing data.
+
+	"""
+
     origtrainX, trainY = read.read_training_data()
     testX, testY = read.read_testing_data()
 
