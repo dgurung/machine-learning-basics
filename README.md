@@ -8,7 +8,7 @@ This repository contains implementation of classifiers and linear regression met
 3. Neural Network (single hidden layer). For math and conventions used in the code see book [2] section 7.3,7.2
 
 ##### Regressions:
-1. Linear regression based on oridnary least squares (OLS)
+1. Linear regression based on ordinary least squares (OLS)
 2. Subset selection method for linear regression 
 3. Logistic Regression
 4. Ridge Regression
