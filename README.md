@@ -14,7 +14,12 @@ This repository contains implementation of classifiers and linear regression met
 4. Ridge Regression
 
 ##### Dependencies:
-Libraries imported: numpy for data structure, scikit-learn for computing error metrics and pca, and matplotlib for data visualization. The dataset for training and testing can be found in [1]. 
+Libraries imported: 
+1. numpy for data structure,   
+2. scikit-learn for computing error metrics and pca, and   
+3. matplotlib for data visualization.  
+
+The dataset for training and testing can be found in [1]. 
 
 
 ##### Reference
