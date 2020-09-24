@@ -1,6 +1,6 @@
 # Statistical Machine Learning Basics
 
-This repository contains implementation of classifiers and linear regression methods. This codes are written for Statistical Machine Learning class (STAT 775) offered by Prof. [Raul Rojas](http://www.inf.fu-berlin.de/inst/ag-ki/rojas_home/pmwiki/pmwiki.php).
+This repository contains implementation of classifiers and linear regression methods. These codes were written for Statistical Machine Learning class (STAT 775) offered by Prof. [Raul Rojas](http://www.inf.fu-berlin.de/inst/ag-ki/rojas_home/pmwiki/pmwiki.php) in Summer of 2016.
 
 ##### Classifiers:
 1. Fisher Discriminant
